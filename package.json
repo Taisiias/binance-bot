@@ -1,0 +1,20 @@
+{
+  "name": "binance-bot",
+  "version": "0.0.1",
+  "main": "build/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "yarn build && node ./build/index.js",
+    "watch": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts"
+  },
+  "dependencies": {
+    "@types/node": "^9.4.6",
+    "typescript": "^2.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.15.0",
+    "ts-node": "^4.1.0",
+    "tslint": "^5.9.1"
+  }
+}
