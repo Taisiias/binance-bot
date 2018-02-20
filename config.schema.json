@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Configuration file schema",
+    "type": "object",
+    "properties": {
+        "key": {
+            "description": "Binance API key",
+            "type": "string"
+        },
+        "secret": {
+            "description": "Binance API secret",
+            "type": "string"
+        },
+        "databaseUrl": {
+            "description": "Path to database",
+            "type": "string"
+        }
+    },
+    "required": [
+        "key", "secret"
+    ]
+}
