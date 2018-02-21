@@ -17,8 +17,8 @@
     "yargs": "^11.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.15.0",
-    "ts-node": "^4.1.0",
+    "nodemon": "^1.15.1",
+    "ts-node": "^5.0.0",
     "tslint": "^5.9.1"
   }
 }
