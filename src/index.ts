@@ -1,6 +1,7 @@
 import * as deepMerge from "deepmerge";
 import * as fs from "fs";
 import * as yargs from "yargs";
+import * as binance from "binance";
 
 interface Config {
     key: string;
@@ -29,7 +30,26 @@ function run(): void {
         .strict()
         .argv;
     const config = readConfig(args.config as string);
-    console.log(`DatabaseUrl: ${config.databaseUrl}`);
+
+    const binanceRest = new binance.BinanceRest({
+        key: config.key, // Get this from your account on binance.com
+        secret: config.secret, // Same for this
+        timeout: 15000, // Optional, defaults to 15000, is the request time out in milliseconds
+        recvWindow: 10000,
+        disableBeautification: false,
+        handleDrift: false,
+    });
+
+    binanceRest.allOrders({
+        symbol: "VENBTC",
+    })
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+
 }
 
 function readConfig(path: string): Config {
