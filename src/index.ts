@@ -1,7 +1,7 @@
+import * as binance from "binance";
 import * as deepMerge from "deepmerge";
 import * as fs from "fs";
 import * as yargs from "yargs";
-import * as binance from "binance";
 
 interface Config {
     key: string;
