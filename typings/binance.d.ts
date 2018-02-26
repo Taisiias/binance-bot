@@ -165,4 +165,8 @@ declare module "binance" {
         ticker24hr(query: string): Promise<Ticker24HrPrice>;
         newOrder(query: OrderQuery): Promise<OrderResult>;
     }
+
+    class BinanceWS {
+        constructor(beautify: boolean);
+    }
 }

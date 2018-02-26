@@ -49,7 +49,7 @@ function run(): void {
     .catch((err) => {
         console.error(err);
     });
-
+    // const binanceWS = new binance.BinanceWS(true);
 }
 
 function readConfig(path: string): Config {
