@@ -40,16 +40,13 @@ function run(): void {
         handleDrift: false,
     });
 
-    binanceRest.allOrders({
-        symbol: "VENBTC",
-    })
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((err) => {
-        console.error(err);
-    });
-    // const binanceWS = new binance.BinanceWS(true);
+    getCandlesticks(binanceRest).catch(console.log);
+}
+
+async function getCandlesticks(binanceRest: binance.BinanceRest): Promise<void> {
+    // tslint:disable-next-line:no-any
+    const asf = await (binanceRest as any).klines({symbol: "VENBTC", interval: "1m"});
+    fs.writeFileSync("candlesticks.txt", JSON.stringify(asf));
 }
 
 function readConfig(path: string): Config {
