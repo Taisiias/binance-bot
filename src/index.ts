@@ -44,8 +44,10 @@ function run(): void {
 }
 
 async function getCandlesticks(binanceRest: binance.BinanceRest): Promise<void> {
+    const monthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    console.log(`monthAgoDate = ${monthAgo}`);
     // tslint:disable-next-line:no-any
-    const asf = await (binanceRest as any).klines({symbol: "VENBTC", interval: "1m"});
+    const asf = await (binanceRest as any).klines({ symbol: "VENBTC", interval: "1m" });
     fs.writeFileSync("candlesticks.txt", JSON.stringify(asf));
 }
 
