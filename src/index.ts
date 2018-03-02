@@ -46,25 +46,28 @@ function run(): void {
 async function getCandlesticks(binanceRest: binance.BinanceRest): Promise<void> {
     const candleSticksFileName = "candlesticks.json";
     // const monthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    const monthAgo = Date.now() - 24 * 60 * 60 * 1000;
+    let endTimeBuf = Date.now();
 
-    // tslint:disable-next-line:no-any
-    const arr1 = await (binanceRest as any).klines({ symbol: "VENBTC", interval: "1m" });
-    fs.writeFileSync(candleSticksFileName, JSON.stringify(arr1));
+    do {
+        // tslint:disable-next-line:no-any
+        const bufArray = await (binanceRest as any).klines({
+            symbol: "VENBTC",
+            interval: "1m",
+            endTime: endTimeBuf,
+        });
+        let candleSticks = [];
+        try {
+            candleSticks = JSON.parse(fs.readFileSync(candleSticksFileName, "utf8"));
+        } catch {
+            candleSticks = [];
+        }
+        candleSticks = bufArray.concat(candleSticks);
+        console.log(`candleSticks.length: ${candleSticks.length}`);
+        fs.writeFileSync(candleSticksFileName, JSON.stringify(candleSticks));
 
-    const candleSticks = JSON.parse(fs.readFileSync(candleSticksFileName, "utf8"));
-    console.log(`candleSticks.length: ${candleSticks.length}`);
-
-    // tslint:disable-next-line:no-any
-    const arr2 = await (binanceRest as any).klines({
-        symbol: "VENBTC",
-        interval: "1m",
-        endTime: candleSticks[0].openTime,
-    });
-    console.log(`arr2[0].openTime: ${arr2[0].openTime}`);
-
-    // tslint:disable-next-line:no-any
-    // const resultArray = (candleSticks as any[]).concat(arr2);
-    // fs.writeFileSync(candleSticksFileName, resultArray);
+        endTimeBuf = candleSticks[0].openTime;
+    } while (endTimeBuf > monthAgo);
 }
 
 function readConfig(path: string): Config {
