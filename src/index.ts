@@ -45,7 +45,6 @@ function run(): void {
 
 async function getCandlesticks(binanceRest: binance.BinanceRest): Promise<void> {
     const candleSticksFileName = "candlesticks.json";
-    // const monthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
 
     if (fs.existsSync(candleSticksFileName)) {
         fs.unlinkSync(candleSticksFileName);
@@ -58,12 +57,15 @@ async function getCandlesticks(binanceRest: binance.BinanceRest): Promise<void> 
     });
     fs.writeFileSync(candleSticksFileName, JSON.stringify(bufArray));
 
-    const monthAgo = bufArray[0].openTime - 24 * 60 * 60 * 1000;
-    let endTimeBuf;
+    const monthAgo = bufArray[0].openTime - 30 * 24 * 60 * 60 * 1000;
 
-    do {
+    // const monthAgo = bufArray[bufArray.length - 1].openTime - 24 * 60 * 60 * 1000;
+    console.log(`monthAgo: ${monthAgo}`);
+    let endTimeBuf = bufArray[0].openTime - 60 * 1000;
+    console.log(`endTimeBuf: ${endTimeBuf}`);
+
+    while (endTimeBuf > monthAgo) {
         let candleSticks = JSON.parse(fs.readFileSync(candleSticksFileName, "utf8"));
-        endTimeBuf = candleSticks[0].openTime - 60 * 1000;
 
         // tslint:disable-next-line:no-any
         bufArray = await (binanceRest as any).klines({
@@ -75,8 +77,9 @@ async function getCandlesticks(binanceRest: binance.BinanceRest): Promise<void> 
         candleSticks = bufArray.concat(candleSticks);
         console.log(`candleSticks.length: ${candleSticks.length}`);
         fs.writeFileSync(candleSticksFileName, JSON.stringify(candleSticks));
-
-    } while (endTimeBuf > monthAgo);
+        endTimeBuf = candleSticks[0].openTime - 60 * 1000;
+        console.log(`endTimeBuf: ${endTimeBuf}`);
+    }
 }
 
 function readConfig(path: string): Config {
