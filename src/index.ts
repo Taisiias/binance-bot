@@ -40,8 +40,16 @@ function run(): void {
         disableBeautification: false,
         handleDrift: false,
     });
+    const pairs = ["VENBTC", "ETHBTC", "XRPBTC",
+        "DASHBTC", "LTCBTC", "ADABTC", "NEOBTC",
+        "XLMBTC", "EOSBTC", "XMRBTC"];
 
-    collectHistory(binanceRest, "ETHBTC").catch(console.log);
+    for (const pair of pairs) {
+        console.log(`Getting history of ${pair}`);
+        collectHistory(binanceRest, pair).catch((e) => {
+            console.log(`Error in ${pair}: ${e}`);
+        });
+    }
 }
 
 function readConfig(path: string): Config {
