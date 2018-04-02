@@ -2,7 +2,7 @@ import * as binance from "binance";
 import * as deepMerge from "deepmerge";
 import * as fs from "fs";
 import * as yargs from "yargs";
-import { collectHistory } from "./collect-history";
+// import { collectHistory } from "./collect-history";
 
 interface Config {
     key: string;
@@ -40,16 +40,26 @@ function run(): void {
         disableBeautification: false,
         handleDrift: false,
     });
-    const pairs = ["VENBTC", "ETHBTC", "XRPBTC",
-        "DASHBTC", "LTCBTC", "ADABTC", "NEOBTC",
-        "XLMBTC", "EOSBTC", "XMRBTC"];
 
-    for (const pair of pairs) {
-        console.log(`Getting history of ${pair}`);
-        collectHistory(binanceRest, pair).catch((e) => {
-            console.log(`Error in ${pair}: ${e}`);
-        });
-    }
+    getAccountInfo(binanceRest).catch((e: Error) => {
+        console.log(`Error while getting accout info: ${e}`);
+    });
+
+    // const pairs = ["VENBTC", "ETHBTC", "XRPBTC",
+    //     "DASHBTC", "LTCBTC", "ADABTC", "NEOBTC",
+    //     "XLMBTC", "EOSBTC", "XMRBTC"];
+
+    // for (const pair of pairs) {
+    //     console.log(`Getting history of ${pair}`);
+    //     collectHistory(binanceRest, pair).catch((e) => {
+    //         console.log(`Error in ${pair}: ${e}`);
+    //     });
+    // }
+}
+
+async function getAccountInfo(binanceRest: binance.BinanceRest): Promise<void> {
+    const accountInfo = await binanceRest.account();
+    console.log(`BTC Balance: `, accountInfo.balances.filter((b) => b.asset === "BTC"));
 }
 
 function readConfig(path: string): Config {
