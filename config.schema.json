@@ -14,6 +14,22 @@
         "databaseUrl": {
             "description": "Path to database",
             "type": "string"
+        },
+        "bucketSizeBTC": {
+            "description": "Bucket size in BTC",
+            "type": "number"
+        },
+        "priceLimit": {
+            "description": "Price limit",
+            "type": "number"
+        },
+        "maxTime": {
+            "description": "Max time to keep currency",
+            "type": "number"
+        },
+        "cycleTime": {
+            "description": "Time of the cycle",
+            "type": "number"
         }
     },
     "required": [
