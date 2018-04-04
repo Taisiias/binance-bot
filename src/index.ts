@@ -8,12 +8,18 @@ interface Config {
     key: string;
     secret: string;
     databaseUrl: string;
+    bucketSizeBTC: number;
+    cycleTime_minutes: number;
+    maxTime_minutes: number;
 }
 
 const DefaultConfigObject: Config = {
     databaseUrl: "postgres://localhost/binance-bot",
     key: "",
     secret: "",
+    bucketSizeBTC: 0.0002,
+    cycleTime_minutes: 5,
+    maxTime_minutes: 1440,
 };
 
 function run(): void {
@@ -35,14 +41,14 @@ function run(): void {
     const binanceRest = new binance.BinanceRest({
         key: config.key, // Get this from your account on binance.com
         secret: config.secret, // Same for this
-        timeout: 15000, // Optional, defaults to 15000, is the request time out in milliseconds
+        // timeout: 15000, // Optional, defaults to 15000, is the request time out in milliseconds
         recvWindow: 10000,
         disableBeautification: false,
         handleDrift: false,
     });
 
     getAccountInfo(binanceRest).catch((e: Error) => {
-        console.log(`Error while getting accout info: ${e}`);
+        console.log(`Error while getting accout info: `, e);
     });
 
     // const pairs = ["VENBTC", "ETHBTC", "XRPBTC",
@@ -60,6 +66,7 @@ function run(): void {
 async function getAccountInfo(binanceRest: binance.BinanceRest): Promise<void> {
     const accountInfo = await binanceRest.account();
     console.log(`BTC Balance: `, accountInfo.balances.filter((b) => b.asset === "BTC"));
+
 }
 
 function readConfig(path: string): Config {
