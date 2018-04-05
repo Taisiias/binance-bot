@@ -23,13 +23,17 @@
             "description": "Price limit",
             "type": "number"
         },
-        "maxTime_minutes": {
+        "maxTimeMinutes": {
             "description": "Max time to keep currency",
             "type": "number"
         },
-        "cycleTime_minutes": {
+        "cycleTimeMinutes": {
             "description": "Time of the cycle",
             "type": "number"
+        },
+        "listOfPairs": {
+            "description": "List of currencies",
+            "type": "array"
         }
     },
     "required": [
