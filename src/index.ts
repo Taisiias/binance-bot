@@ -54,7 +54,9 @@ function run(): void {
         .then(
             (res) => {
                 accountBalance = res;
-                console.log(`BTC Balance: `, accountBalance);
+                if (accountBalance > config.bucketSizeBTC) {
+                    console.log(`Let's buy bucket. BTC Balance: `, accountBalance);
+                }
             })
         .catch((e: Error) => {
             console.log(`Error while getting accout info: `, e);
