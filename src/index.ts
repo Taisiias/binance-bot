@@ -24,6 +24,14 @@ const DefaultConfigObject: Config = {
     priceLimit: 2,
 };
 
+interface Bucket {
+    symbol: string;
+    amount: number;
+    initialPriceBTC: number;
+    finalPriceBTC: number;
+    buyTime: number;
+}
+
 function run(): void {
     const args = yargs.usage("Binance-bot server. Usage: $0 [-c <config file>]")
         .options("config", {
@@ -49,6 +57,7 @@ function run(): void {
         handleDrift: false,
     });
 
+    const buckets: Bucket[] = [];
     let accountBalance = 0;
     getAccountInfo(binanceRest)
         .then(
@@ -56,6 +65,13 @@ function run(): void {
                 accountBalance = res;
                 if (accountBalance > config.bucketSizeBTC) {
                     console.log(`Let's buy bucket. BTC Balance: `, accountBalance);
+                    const newBucket: Bucket = {
+                    symbol: "VEN",
+                    amount: 10,
+                    buyTime: Date.now(),
+                    initialPriceBTC: 1,
+                    finalPriceBTC: 1 * (1 + config.priceLimit)}; // 1 for initialPriceBTC
+                    buckets.push(newBucket);
                 }
             })
         .catch((e: Error) => {
