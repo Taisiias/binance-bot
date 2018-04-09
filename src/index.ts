@@ -66,12 +66,19 @@ function run(): void {
                 if (accountBalance > config.bucketSizeBTC) {
                     console.log(`Let's buy bucket. BTC Balance: `, accountBalance);
                     const newBucket: Bucket = {
-                    symbol: "VEN",
-                    amount: 10,
-                    buyTime: Date.now(),
-                    initialPriceBTC: 1,
-                    finalPriceBTC: 1 * (1 + config.priceLimit)}; // 1 for initialPriceBTC
+                        symbol: "VEN",
+                        amount: 10,
+                        buyTime: Date.now(),
+                        initialPriceBTC: 1,
+                        finalPriceBTC: 1 * (1 + config.priceLimit),
+                    }; // 1 for initialPriceBTC
                     buckets.push(newBucket);
+                }
+                for (const b of buckets) {
+                    if (b.finalPriceBTC >= 0.999 || // get current price for b
+                        Date.now() >= b.buyTime + config.maxTimeMinutes * 60 * 1000) {
+                        // sell b
+                    }
                 }
             })
         .catch((e: Error) => {
