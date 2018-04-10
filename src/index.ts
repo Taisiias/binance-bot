@@ -1,6 +1,7 @@
 import * as binance from "binance";
 import * as deepMerge from "deepmerge";
 import * as fs from "fs";
+import * as randomSeed from "random-seed";
 import * as yargs from "yargs";
 // import { collectHistory } from "./collect-history";
 
@@ -11,6 +12,7 @@ interface Config {
     bucketSizeBTC: number;
     cycleTimeMinutes: number;
     maxTimeMinutes: number;
+    listOfPairs: [""];
     priceLimit: number;
 }
 
@@ -21,6 +23,7 @@ const DefaultConfigObject: Config = {
     bucketSizeBTC: 0.00437, // $30
     cycleTimeMinutes: 5,
     maxTimeMinutes: 1440,
+    listOfPairs: [""],
     priceLimit: 2,
 };
 
@@ -32,7 +35,7 @@ interface Bucket {
     buyTime: number;
 }
 
-function run(): void {
+async function run(): Promise<void> {
     const args = yargs.usage("Binance-bot server. Usage: $0 [-c <config file>]")
         .options("config", {
             alias: "c",
@@ -46,6 +49,7 @@ function run(): void {
         .epilog("Support: https://github.com/Taisiias/binance-bot")
         .strict()
         .argv;
+    const random = randomSeed.create("binance-bot");
     const config = readConfig(args.config as string);
 
     const binanceRest = new binance.BinanceRest({
@@ -58,32 +62,27 @@ function run(): void {
     });
 
     const buckets: Bucket[] = [];
-    let accountBalance = 0;
-    getAccountInfo(binanceRest)
-        .then(
-            (res) => {
-                accountBalance = res;
-                if (accountBalance > config.bucketSizeBTC) {
-                    console.log(`Let's buy bucket. BTC Balance: `, accountBalance);
-                    const newBucket: Bucket = {
-                        symbol: "VEN",
-                        amount: 10,
-                        buyTime: Date.now(),
-                        initialPriceBTC: 1,
-                        finalPriceBTC: 1 * (1 + config.priceLimit),
-                    }; // 1 for initialPriceBTC
-                    buckets.push(newBucket);
-                }
-                for (const b of buckets) {
-                    if (b.finalPriceBTC >= 0.999 || // get current price for b
-                        Date.now() >= b.buyTime + config.maxTimeMinutes * 60 * 1000) {
-                        // sell b
-                    }
-                }
-            })
-        .catch((e: Error) => {
-            console.log(`Error while getting accout info: `, e);
-        });
+    const accountBalance = await getAccountInfo(binanceRest);
+    if (accountBalance > config.bucketSizeBTC) {
+        const currencyToBuy = random(10);
+        console.log(`Let's buy bucket of ${config.listOfPairs[currencyToBuy]}.`);
+
+        const newBucket: Bucket = {
+            symbol: config.listOfPairs[currencyToBuy],
+            amount: 10,
+            buyTime: Date.now(),
+            initialPriceBTC: 1,
+            finalPriceBTC: 1 * (1 + config.priceLimit),
+        }; // 1 for initialPriceBTC
+        buckets.push(newBucket);
+    }
+    for (const b of buckets) {
+        if (b.finalPriceBTC >= 0.999 || // get current price for b
+            Date.now() >= b.buyTime + config.maxTimeMinutes * 60 * 1000) {
+            console.log(`Let's sell b `, accountBalance);
+        }
+    }
+
     // console.log(`BTC Balance: 1`, accountBalance);
     // const pairs = ["VENBTC", "ETHBTC", "XRPBTC",
     //     "DASHBTC", "LTCBTC", "ADABTC", "NEOBTC",
@@ -148,11 +147,9 @@ function createConfigObject(fileContent: string): Config {
 }
 
 function runAndReport(): void {
-    try {
-        run();
-    } catch (e) {
-        console.log(`An error occurred: ${e.message}`);
-    }
+    run().catch((e: Error) => {
+        console.log(`An error occurred: `, e);
+    });
 }
 
 runAndReport();
