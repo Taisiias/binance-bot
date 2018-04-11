@@ -30,6 +30,7 @@ const DefaultConfigObject: Config = {
 interface Bucket {
     symbol: string;
     amount: number;
+    amountInBtc: number;
     initialPriceBTC: number;
     finalPriceBTC: number;
     buyTime: number;
@@ -61,25 +62,45 @@ async function run(): Promise<void> {
         handleDrift: false,
     });
 
+    const venHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-VENBTC.json`).toString());
+    const ethHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-ETHBTC.json`).toString());
+    const xrpHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-XRPBTC.json`).toString());
+    const dashHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-DASHBTC.json`).toString());
+    const ltcHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-LTCBTC.json`).toString());
+    const adaHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-ADABTC.json`).toString());
+    const neoHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-NEOBTC.json`).toString());
+    const xlmHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-XLMBTC.json`).toString());
+    const eosHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-EOSBTC.json`).toString());
+    const xmrHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-XMRBTC.json`).toString());
+
+    console.log(`VEN history: `, venHistoryJson.length);
+    console.log(`ETH history: `, ethHistoryJson.length);
+    console.log(`XRP history: `, xrpHistoryJson.length);
+    console.log(`DASH history: `, dashHistoryJson.length);
+    console.log(`LTC history: `, ltcHistoryJson.length);
+    console.log(`ADA history: `, adaHistoryJson.length);
+    console.log(`NEO history: `, neoHistoryJson.length);
+    console.log(`XLM history: `, xlmHistoryJson.length);
+    console.log(`EOS history: `, eosHistoryJson.length);
+    console.log(`XMR history: `, xmrHistoryJson.length);
+
     const buckets: Bucket[] = [];
-    const accountBalance = await getAccountInfo(binanceRest);
-    if (accountBalance > config.bucketSizeBTC) {
+
+    const btcAccountBalance = await getAccountInfo(binanceRest);
+    console.log(`Real BTC Account Balance `, btcAccountBalance);
+
+    let btcAmount = 0.0437; // await getAccountInfo(binanceRest);
+    if (btcAmount > config.bucketSizeBTC) {
         const currencyToBuy = random(10);
         console.log(`Let's buy bucket of ${config.listOfPairs[currencyToBuy]}.`);
-
-        const newBucket: Bucket = {
-            symbol: config.listOfPairs[currencyToBuy],
-            amount: 10,
-            buyTime: Date.now(),
-            initialPriceBTC: 1,
-            finalPriceBTC: 1 * (1 + config.priceLimit),
-        }; // 1 for initialPriceBTC
+        const newBucket = await buyBucket(config, currencyToBuy);
+        btcAmount = btcAmount - newBucket.amountInBtc;
         buckets.push(newBucket);
     }
     for (const b of buckets) {
         if (b.finalPriceBTC >= 0.999 || // get current price for b
             Date.now() >= b.buyTime + config.maxTimeMinutes * 60 * 1000) {
-            console.log(`Let's sell b `, accountBalance);
+            console.log(`Let's sell b `, btcAmount);
         }
     }
 
@@ -94,6 +115,21 @@ async function run(): Promise<void> {
     //         console.log(`Error in ${pair}: ${e}`);
     //     });
     // }
+}
+
+async function buyBucket(
+    config: Config,
+    currencyToBuy: number,
+): Promise<Bucket> {
+    const newBucket: Bucket = {
+        symbol: config.listOfPairs[currencyToBuy],
+        amount: config.bucketSizeBTC / 1, // 1 for BTC rate
+        amountInBtc: config.bucketSizeBTC,
+        buyTime: Date.now(),
+        initialPriceBTC: 1,
+        finalPriceBTC: 1 * (1 + config.priceLimit),
+    }; // 1 for initialPriceBTC
+    return newBucket;
 }
 
 async function getAccountInfo(binanceRest: binance.BinanceRest): Promise<number> {
