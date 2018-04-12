@@ -9,30 +9,29 @@ interface Config {
     key: string;
     secret: string;
     databaseUrl: string;
-    bucketSizeBTC: number;
+    bucketSizeBtc: number;
     cycleTimeMinutes: number;
     maxTimeMinutes: number;
-    listOfPairs: [""];
-    priceLimit: number;
+    symbols: string[];
+    profitMultiplier: number;
 }
 
 const DefaultConfigObject: Config = {
     databaseUrl: "postgres://localhost/binance-bot",
     key: "",
     secret: "",
-    bucketSizeBTC: 0.00437, // $30
+    bucketSizeBtc: 0.00437, // $30
     cycleTimeMinutes: 5,
     maxTimeMinutes: 1440,
-    listOfPairs: [""],
-    priceLimit: 2,
+    symbols: [],
+    profitMultiplier: 2,
 };
 
 interface Bucket {
     symbol: string;
-    amount: number;
-    amountInBtc: number;
-    initialPriceBTC: number;
-    finalPriceBTC: number;
+    amount: number; // of bucket currency
+    initialPriceBtc: number;
+    finalPriceBtc: number;
     buyTime: number;
 }
 
@@ -50,7 +49,7 @@ async function run(): Promise<void> {
         .epilog("Support: https://github.com/Taisiias/binance-bot")
         .strict()
         .argv;
-    const random = randomSeed.create("binance-bot");
+
     const config = readConfig(args.config as string);
 
     const binanceRest = new binance.BinanceRest({
@@ -61,48 +60,10 @@ async function run(): Promise<void> {
         disableBeautification: false,
         handleDrift: false,
     });
+    const btcRealAccountBalance = await getAccountInfo(binanceRest);
+    console.log(`Real BTC Account Balance `, btcRealAccountBalance);
 
-    const venHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-VENBTC.json`).toString());
-    const ethHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-ETHBTC.json`).toString());
-    const xrpHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-XRPBTC.json`).toString());
-    const dashHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-DASHBTC.json`).toString());
-    const ltcHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-LTCBTC.json`).toString());
-    const adaHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-ADABTC.json`).toString());
-    const neoHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-NEOBTC.json`).toString());
-    const xlmHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-XLMBTC.json`).toString());
-    const eosHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-EOSBTC.json`).toString());
-    const xmrHistoryJson = JSON.parse(fs.readFileSync(`candlesticks-XMRBTC.json`).toString());
-
-    console.log(`VEN history: `, venHistoryJson.length);
-    console.log(`ETH history: `, ethHistoryJson.length);
-    console.log(`XRP history: `, xrpHistoryJson.length);
-    console.log(`DASH history: `, dashHistoryJson.length);
-    console.log(`LTC history: `, ltcHistoryJson.length);
-    console.log(`ADA history: `, adaHistoryJson.length);
-    console.log(`NEO history: `, neoHistoryJson.length);
-    console.log(`XLM history: `, xlmHistoryJson.length);
-    console.log(`EOS history: `, eosHistoryJson.length);
-    console.log(`XMR history: `, xmrHistoryJson.length);
-
-    const buckets: Bucket[] = [];
-
-    const btcAccountBalance = await getAccountInfo(binanceRest);
-    console.log(`Real BTC Account Balance `, btcAccountBalance);
-
-    let btcAmount = 0.0437; // await getAccountInfo(binanceRest);
-    if (btcAmount > config.bucketSizeBTC) {
-        const currencyToBuy = random(10);
-        console.log(`Let's buy bucket of ${config.listOfPairs[currencyToBuy]}.`);
-        const newBucket = await buyBucket(config, currencyToBuy);
-        btcAmount = btcAmount - newBucket.amountInBtc;
-        buckets.push(newBucket);
-    }
-    for (const b of buckets) {
-        if (b.finalPriceBTC >= 0.999 || // get current price for b
-            Date.now() >= b.buyTime + config.maxTimeMinutes * 60 * 1000) {
-            console.log(`Let's sell b `, btcAmount);
-        }
-    }
+    testBinanceBot(config);
 
     // console.log(`BTC Balance: 1`, accountBalance);
     // const pairs = ["VENBTC", "ETHBTC", "XRPBTC",
@@ -117,18 +78,116 @@ async function run(): Promise<void> {
     // }
 }
 
-async function buyBucket(
+interface CurrencyCandlestickRecord {
+    openTime: number;
+    open: string;
+    high: string;
+    low: string;
+    close: string;
+    volume: string;
+    closeTime: number;
+    quoteAssetVolume: string;
+    trades: number;
+    takerBaseAssetVolume: string;
+    takerQuoteAssetVolume: string;
+    ignored: string;
+}
+
+interface CurrencyDataMap {
+    [key: string]: CurrencyCandlestickRecord[];
+}
+
+function testBinanceBot(
     config: Config,
-    currencyToBuy: number,
-): Promise<Bucket> {
+): void {
+    const random = randomSeed.create("binance-bot");
+
+    const currencyMap: CurrencyDataMap = {};
+    for (const symbol of config.symbols) {
+        currencyMap[symbol] = JSON.parse(
+            fs.readFileSync(`candlesticks-${symbol}BTC.json`).toString());
+    }
+
+    let buckets: Bucket[] = [];
+
+    let btcAmount = 0.03947; // await getAccountInfo(binanceRest);
+    const startBtcAmount = btcAmount;
+    let i = 0;
+    const startDate = 0;
+    while (true) {
+        // console.log(`Step ${i}`);
+        const newBuckets: Bucket[] = [];
+
+        const currentDate = startDate + i * 60 * 1000;
+
+        if (btcAmount > config.bucketSizeBtc) {
+            const currencyToBuy = random(10);
+            const symbol = config.symbols[currencyToBuy];
+            if (i >= currencyMap[symbol].length) { break; }
+
+            console.log(`Let's buy bucket of ${symbol}.`);
+            const currentPriceBtc = parseFloat(currencyMap[symbol][i].high);
+            const newBucket = buyBucket(
+                config.bucketSizeBtc, symbol, currentPriceBtc, config.profitMultiplier,
+                currentDate);
+            btcAmount -= newBucket.amount * newBucket.initialPriceBtc;
+            console.log(`BTC: ${btcAmount}`);
+            newBuckets.push(newBucket);
+        }
+
+        if (i >= currencyMap[config.symbols[0]].length) { break; }
+
+        for (const b of buckets) {
+            const currencyDatas = currencyMap[b.symbol];
+            if (parseFloat(currencyDatas[i].high) >= b.finalPriceBtc) {
+                console.log(`Let's sell bucket of ${b.symbol} with profit.`);
+                btcAmount += b.finalPriceBtc * b.amount;
+                console.log(`Got BTC: ${b.finalPriceBtc * b.amount}, BTC: ${btcAmount}`);
+            } else if (currentDate >= b.buyTime + config.maxTimeMinutes * 60 * 1000) {
+                console.log(`Let's sell bucket of ${b.symbol} with loss.`);
+                const gain = parseFloat(currencyDatas[i].low) * b.amount;
+                btcAmount += gain;
+                console.log(`Got BTC: ${gain}, BTC: ${btcAmount}`);
+            } else {
+                newBuckets.push(b);
+            }
+        }
+        buckets = newBuckets;
+
+        i++;
+    }
+
+    console.log("Selling all remaining buckets.");
+    for (const b of buckets) {
+        console.log(`Selling ${b.symbol}.`);
+        const currencyDatas = currencyMap[b.symbol];
+        const lastRecord = currencyDatas[currencyDatas.length - 1];
+        const lastPriceBtc = parseFloat(lastRecord.low);
+        const gain = lastPriceBtc * b.amount;
+        // const gain = b.initialPriceBtc * b.amount;
+        btcAmount += gain;
+        console.log(`Got BTC: ${gain}, BTC: ${btcAmount}`);
+    }
+
+    const overallGain = btcAmount - startBtcAmount;
+    const percents = 100 * overallGain / startBtcAmount;
+    console.log(`Final BTC amount: ${btcAmount}. Gain: ${overallGain} (${percents}%)`);
+}
+
+function buyBucket(
+    bucketSizeBtc: number,
+    symbol: string,
+    initialPriceBtc: number,
+    profitMultiplier: number,
+    buyTime: number,
+): Bucket {
     const newBucket: Bucket = {
-        symbol: config.listOfPairs[currencyToBuy],
-        amount: config.bucketSizeBTC / 1, // 1 for BTC rate
-        amountInBtc: config.bucketSizeBTC,
-        buyTime: Date.now(),
-        initialPriceBTC: 1,
-        finalPriceBTC: 1 * (1 + config.priceLimit),
-    }; // 1 for initialPriceBTC
+        symbol,
+        amount: bucketSizeBtc / initialPriceBtc,
+        buyTime,
+        initialPriceBtc,
+        finalPriceBtc: initialPriceBtc * profitMultiplier,
+    };
     return newBucket;
 }
 
