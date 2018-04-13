@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn build && node ./build/index.js",
+    "collect": "yarn build && node ./build/collect-history.js",
     "watch": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts"
   },
   "dependencies": {
