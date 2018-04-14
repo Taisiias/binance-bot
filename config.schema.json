@@ -15,15 +15,15 @@
             "description": "Path to database",
             "type": "string"
         },
-        "bucketSizeBTC": {
+        "bucketSizeBtc": {
             "description": "Bucket size in BTC",
             "type": "number"
         },
-        "priceLimit": {
+        "profitMultiplier": {
             "description": "Price limit",
             "type": "number"
         },
-        "maxTimeMinutes": {
+        "forceSellInMinutes": {
             "description": "Max time to keep currency",
             "type": "number"
         },
@@ -31,9 +31,17 @@
             "description": "Time of the cycle",
             "type": "number"
         },
-        "listOfPairs": {
+        "symbols": {
             "description": "List of currencies",
             "type": "array"
+        },
+        "movingAverageWindow": {
+            "description": "Moving average window",
+            "type": "number"
+        },
+        "exchangeFee": {
+            "description": "Exchange fee",
+            "type": "number"
         }
     },
     "required": [
