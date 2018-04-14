@@ -1,4 +1,3 @@
-import * as deepMerge from "deepmerge";
 import * as fs from "fs";
 
 export interface Config {
@@ -7,23 +6,12 @@ export interface Config {
     databaseUrl: string;
     bucketSizeBtc: number;
     cycleTimeMinutes: number;
-    maxTimeMinutes: number;
+    forceSellInMinutes: number;
     symbols: string[];
     profitMultiplier: number;
     movingAverageWindow: number;
+    exchangeFee: number;
 }
-
-const DefaultConfigObject: Config = {
-    databaseUrl: "postgres://localhost/binance-bot",
-    key: "",
-    secret: "",
-    bucketSizeBtc: 0.00437, // $30
-    cycleTimeMinutes: 5,
-    maxTimeMinutes: 1440,
-    symbols: [],
-    profitMultiplier: 2,
-    movingAverageWindow: 60,
-};
 
 export interface CurrencyCandlestickRecord {
     openTime: number;
@@ -64,20 +52,15 @@ export function readConfig(path: string): Config {
 }
 
 function createConfigObject(fileContent: string): Config {
-    let cf: Config;
     const json = JSON.parse(fileContent) as Config;
-    /* tslint:disable:no-any */
-    const mergedObject: { [k: string]: any } = deepMerge(DefaultConfigObject, json);
 
-    if (!mergedObject.hasOwnProperty("key") && !mergedObject.key) {
+    if (!json.hasOwnProperty("key") && !json.key) {
         throw new Error(`Property key is missing.`);
     }
 
-    if (!mergedObject.hasOwnProperty("secret") && !mergedObject.secret) {
+    if (!json.hasOwnProperty("secret") && !json.secret) {
         throw new Error(`Property secret is missing.`);
     }
 
-    cf = mergedObject as Config;
-
-    return cf;
+    return json as Config;
 }
