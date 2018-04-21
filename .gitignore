@@ -2,3 +2,5 @@
 /build/
 /config.json
 *.log
+/dist/
+/.cache/
