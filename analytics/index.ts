@@ -4,7 +4,7 @@ import * as highcharts from "highcharts";
 function insertChart(): void {
     highcharts.chart("container", {
         chart: {
-            type: "bar",
+            type: "line",
         },
         title: {
             text: "Fruit Consumption",
