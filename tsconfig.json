@@ -16,7 +16,8 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "strictNullChecks": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
+        "typeRoots" : ["./typings", "./node_modules/@types"]
     },
     "exclude": [
         "build",

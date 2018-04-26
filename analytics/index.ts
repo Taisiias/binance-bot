@@ -1,6 +1,7 @@
 // import * as message from "./message";
 // tslint:disable-next-line:no-submodule-imports
 import * as highcharts from "highcharts/highstock";
+// import { CurrencyCandlestickRecord } from "../src/lib";
 
 function insertChart(): void {
     highcharts.stockChart("container", {
@@ -21,8 +22,8 @@ function insertChart(): void {
                 high: 10,
                 low: 4,
                 close: 6,
-                // name: "Point2",
-                // color: "#00FF00",
+                name: "Point2",
+                color: "#00FF00",
             }, {
                 x: 2,
                 open: 4,
@@ -38,16 +39,22 @@ function insertChart(): void {
                 high: 14,
                 low: 7,
                 close: 8,
-                // name: "Point1",
-                // color: "#FF00FF",
+                name: "Point3",
+                color: "#FF00FF",
             }],
             dataGrouping: {
-                 units: [[ "week", [1]], [ "month", [1, 2, 3, 6]]]},
+                units: [["week", [1]], ["month", [1, 2, 3, 6]]],
             },
+        },
         ],
     });
 }
 
+// function readData(): void {
+
+// }
+
 window.onload = () => {
+    // readData();
     insertChart();
 };

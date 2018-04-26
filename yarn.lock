@@ -6,16 +6,6 @@
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@types/deepmerge/-/deepmerge-2.1.0.tgz#22f175e5cb55874fe818caa6fd50a1d98fc3d748"
 
-"@types/geojson@*":
-  version "7946.0.2"
-  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.2.tgz#0bd0a01ef04e813c2b7580318da9e37c2eadea9c"
-
-"@types/highcharts@^5.0.22":
-  version "5.0.22"
-  resolved "https://registry.yarnpkg.com/@types/highcharts/-/highcharts-5.0.22.tgz#60ebd8857c4a81e33360e623551d1e7ec896c759"
-  dependencies:
-    "@types/geojson" "*"
-
 "@types/node@^9.6.6":
   version "9.6.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.6.tgz#439b91f9caf3983cad2eef1e11f6bedcbf9431d2"
@@ -874,10 +864,6 @@ hawk@~6.0.2:
     cryptiles "3.x.x"
     hoek "4.x.x"
     sntp "2.x.x"
-
-highcharts@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-6.1.0.tgz#115a6ee10ad36a53d9913f1030c6d46da16c7cb5"
 
 hoek@2.x.x:
   version "2.16.3"
