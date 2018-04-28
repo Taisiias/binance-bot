@@ -2,9 +2,13 @@
 import * as fs from "fs";
 // tslint:disable-next-line:no-submodule-imports
 import * as highcharts from "highcharts/highstock";
+import * as path from "path";
 import { CurrencyCandlestickRecord } from "../src/lib";
 
-function insertChart(): void {
+function insertChart(
+    chartData: Highcharts.DataPoint[],
+): void {
+    console.log("Building chart.");
     highcharts.stockChart("container", {
         rangeSelector: {
             selected: 1,
@@ -17,44 +21,22 @@ function insertChart(): void {
         series: [{
             type: "candlestick",
             name: "Binance Bot Candlesticks",
-            data: [{
-                x: 1,
-                open: 9,
-                high: 10,
-                low: 4,
-                close: 6,
-                name: "Point1",
-                color: "#00FF00",
-            }, {
-                x: 2,
-                open: 4,
-                high: 10,
-                low: 7,
-                close: 7,
-                name: "Point2",
-                color: "#FF00FF",
-            },
-            {
-                x: 3,
-                open: 13,
-                high: 14,
-                low: 7,
-                close: 8,
-                name: "Point3",
-                color: "#FF00FF",
-            }],
+            data: chartData,
             dataGrouping: {
                 units: [["week", [1]], ["month", [1, 2, 3, 6]]],
             },
         },
         ],
     });
+    console.log("Chart has been built.");
 }
 
-function readData(): void {
-    const fileContent =
-        JSON.parse(fs.readFileSync("/candlesticks/candlesticks-ADABTC.json").toString());
-    const candlesticksArray = fileContent as CurrencyCandlestickRecord[];
+function readData(): Highcharts.DataPoint[] {
+    const fileContent = fs.readFileSync(
+        path.join(__dirname + "/candlesticks/candlesticks-ADABTC.json"));
+    const fileContentJson =
+        JSON.parse(fileContent.toString());
+    const candlesticksArray = fileContentJson as CurrencyCandlestickRecord[];
 
     let i = 1;
     const chartData: Highcharts.DataPoint[] = [];
@@ -74,10 +56,10 @@ function readData(): void {
         // oo.color = "#FF00FF";
         i++;
     }
-
+    return chartData;
 }
 
 window.onload = () => {
-    readData();
-    insertChart();
+    const chartData = readData();
+    insertChart(chartData);
 };
