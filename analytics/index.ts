@@ -1,8 +1,5 @@
-// import * as message from "./message";
-import * as fs from "fs";
 // tslint:disable-next-line:no-submodule-imports
 import * as highcharts from "highcharts/highstock";
-import * as path from "path";
 import { CurrencyCandlestickRecord } from "../src/lib";
 
 function insertChart(
@@ -17,7 +14,11 @@ function insertChart(
         title: {
             text: "Binance Bot Candlesticks",
         },
-
+        plotOptions: {
+            series: {
+                turboThreshold: 50000,
+            },
+        },
         series: [{
             type: "candlestick",
             name: "Binance Bot Candlesticks",
@@ -32,10 +33,7 @@ function insertChart(
 }
 
 function readData(): Highcharts.DataPoint[] {
-    const fileContent = fs.readFileSync(
-        path.join(__dirname + "/candlesticks/candlesticks-ADABTC.json"));
-    const fileContentJson =
-        JSON.parse(fileContent.toString());
+    const fileContentJson = require("./candlesticks/candlesticks-ADABTC.json");
     const candlesticksArray = fileContentJson as CurrencyCandlestickRecord[];
 
     let i = 1;
