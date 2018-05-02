@@ -10,7 +10,9 @@ function insertChart(
         rangeSelector: {
             selected: 1,
         },
-
+        chart: {
+            zoomType: "x",
+        },
         title: {
             text: "Binance Bot Candlesticks",
         },
@@ -24,7 +26,10 @@ function insertChart(
             name: "Binance Bot Candlesticks",
             data: chartData,
             dataGrouping: {
-                units: [["week", [1]], ["month", [1, 2, 3, 6]]],
+                units: [["minute", [1]],
+                      ["hour", [1]],
+                    // ["day", [1, 10, 20, 30]]
+                ],
             },
         },
         ],
@@ -33,25 +38,23 @@ function insertChart(
 }
 
 function readData(): Highcharts.DataPoint[] {
-    const fileContentJson = require("./candlesticks/candlesticks-ADABTC.json");
+    const fileContentJson = require("./candlesticks/candlesticks-VENBTC.json");
     const candlesticksArray = fileContentJson as CurrencyCandlestickRecord[];
 
     let i = 1;
+
     const chartData: Highcharts.DataPoint[] = [];
     for (const o of candlesticksArray) {
         const oo: Highcharts.DataPoint = {
-            x: i,
+            x: o.openTime,
             open: Number.parseFloat(o.open),
             high: Number.parseFloat(o.high),
             low: Number.parseFloat(o.low),
             close: Number.parseFloat(o.close),
             name: `Candlestick ${i}`,
-            color: "#FF00FF",
+            color: "#FF0000",
         };
         chartData.push(oo);
-        // const oo: Highcharts.DataPoint  = o;
-        // oo.name = `Candlestick ${i}`;
-        // oo.color = "#FF00FF";
         i++;
     }
     return chartData;
