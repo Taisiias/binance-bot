@@ -5637,6 +5637,7 @@ declare namespace Highcharts {
         z?: number;
         open?: number;
         close?: number;
+        negativeColor?: string;
     }
 
     /**

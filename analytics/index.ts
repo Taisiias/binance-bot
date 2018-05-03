@@ -5,7 +5,6 @@ import { CurrencyCandlestickRecord } from "../src/lib";
 function insertChart(
     chartData: Highcharts.DataPoint[],
 ): void {
-    console.log("Building chart.");
     highcharts.stockChart("container", {
         rangeSelector: {
             selected: 1,
@@ -18,7 +17,8 @@ function insertChart(
         },
         plotOptions: {
             series: {
-                turboThreshold: 50000,
+                turboThreshold: 0,
+                lineWidth: 0,
             },
         },
         series: [{
@@ -28,13 +28,14 @@ function insertChart(
             dataGrouping: {
                 units: [["minute", [1]],
                       ["hour", [1]],
-                    // ["day", [1, 10, 20, 30]]
+                    // ["day", [1, 10, 20, 30]],
+                    // ["month", [1, 2, 3]],
+                    ["year", [1]],
                 ],
             },
         },
         ],
     });
-    console.log("Chart has been built.");
 }
 
 function readData(): Highcharts.DataPoint[] {
@@ -53,6 +54,7 @@ function readData(): Highcharts.DataPoint[] {
             close: Number.parseFloat(o.close),
             name: `Candlestick ${i}`,
             color: "#FF0000",
+            negativeColor: "#0088FF",
         };
         chartData.push(oo);
         i++;
