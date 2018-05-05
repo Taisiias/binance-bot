@@ -21,6 +21,7 @@
     },
     "exclude": [
         "build",
+        "analytics",
         "node_modules"
     ]
 }

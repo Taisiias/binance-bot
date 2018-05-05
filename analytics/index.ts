@@ -39,7 +39,7 @@ function insertChart(
 }
 
 function readData(): Highcharts.DataPoint[] {
-    const fileContentJson = require("./candlesticks/candlesticks-VENBTC.json");
+    const fileContentJson = require("../candlesticks/candlesticks-VENBTC.json");
     const candlesticksArray = fileContentJson as CurrencyCandlestickRecord[];
 
     let i = 1;

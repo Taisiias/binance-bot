@@ -41,7 +41,7 @@ function testBinanceBot(
     const currencyMap: CurrencyDataMap = {};
     for (const symbol of config.symbols) {
         currencyMap[symbol] = JSON.parse(
-            fs.readFileSync(`candlesticks-${symbol}BTC.json`).toString());
+            fs.readFileSync(`./candlesticks/candlesticks-${symbol}BTC.json`).toString());
     }
 
     let buckets: Bucket[] = [];
