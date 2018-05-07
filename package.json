@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc",
     "paper-test": "yarn build && node ./build/paper-test.js",
-    "collect": "yarn build && node ./build/collect-history.js",
-    "analyze": "yarn build && node ./build/analyze.js"
+    "collect": "yarn build && node ./build/collect-history.js"
   },
   "dependencies": {
     "@types/deepmerge": "^2.1.0",

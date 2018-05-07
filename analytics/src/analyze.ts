@@ -18,7 +18,7 @@ function analyzeCurrency(
 ): void {
     console.log(symbol);
     const currencyData: CurrencyCandlestickRecord[] =
-        JSON.parse(fs.readFileSync(`candlesticks-${symbol}BTC.json`).toString());
+        JSON.parse(fs.readFileSync(`../candlesticks/candlesticks-${symbol}BTC.json`).toString());
 
     const parsedData: Array<[Date, number, number, number, number, number]> = [];
     for (const record of currencyData) {

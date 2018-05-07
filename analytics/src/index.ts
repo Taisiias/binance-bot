@@ -1,6 +1,6 @@
 // tslint:disable-next-line:no-submodule-imports
 import * as highcharts from "highcharts/highstock";
-import { CurrencyCandlestickRecord } from "../src/lib";
+import { CurrencyCandlestickRecord } from "./lib";
 
 function insertChart(
     chartData: Highcharts.DataPoint[],

@@ -4,13 +4,19 @@
   "description": "Binance-bot analytics",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "analyze": "yarn build && node ./build/analyze.js"
   },
   "author": "Taisiia Sobchenko <taisiia.sobchenko@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@types/highcharts": "^5.0.22",
+    "@types/node": "^10.0.4",
+    "chalk": "^2.4.1",
     "highcharts": "^6.1.0",
+    "moment": "^2.22.1",
+    "printj": "^1.1.2",
     "yarn": "^1.6.0"
   }
 }
