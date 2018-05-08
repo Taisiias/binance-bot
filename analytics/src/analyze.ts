@@ -1,24 +1,32 @@
 import chalk from "chalk";
-import * as fs from "fs";
-import * as moment from "moment";
+// import * as fs from "fs";
+// tslint:disable-next-line:no-submodule-imports
+// import * as highcharts from "highcharts/highstock";
+import moment from "moment";
 import { sprintf } from "printj";
 import { CurrencyCandlestickRecord } from "./lib";
 
-enum ReportFormat {
+export enum ReportFormat {
     Basic,
     MASell,
 }
 
-function analyzeCurrency(
-    symbol: string,
+export function analyzeCurrency(
+    currencyData: CurrencyCandlestickRecord[],
     forceSellWindowMinutes: number,
     requiredProfitPercents: number,
     format: ReportFormat,
     maPredictionThreshold: number,
-): void {
-    console.log(symbol);
-    const currencyData: CurrencyCandlestickRecord[] =
-        JSON.parse(fs.readFileSync(`../candlesticks/candlesticks-${symbol}BTC.json`).toString());
+): number[] {
+
+    const resultAverage: number[] = [];
+
+    // console.log(symbol);
+    // const currencyData: CurrencyCandlestickRecord[] =
+    // JSON.parse(fs.readFileSync(`../candlesticks/candlesticks-${symbol}BTC.json`).toString());
+    // require("../../candlesticks/candlesticks-XMRBTC.json");
+    // const fileContentJson = require(`../../candlesticks/candlesticks-${symbol}BTC.json`);
+    // const currencyData = fileContentJson as CurrencyCandlestickRecord[];
 
     const parsedData: Array<[Date, number, number, number, number, number]> = [];
     for (const record of currencyData) {
@@ -54,6 +62,7 @@ function analyzeCurrency(
         const changePercents = ((close - lastClose) / lastClose) * 100;
 
         const [ma60, ma60Dist] = calculateMa(parsedData, i, 60);
+        resultAverage.push(ma60);
         const ma240Dist = calculateMa(parsedData, i, 240)[1];
         const ma720Dist = calculateMa(parsedData, i, 720)[1];
         const ma1440Dist = calculateMa(parsedData, i, 1440)[1];
@@ -145,6 +154,8 @@ function analyzeCurrency(
     console.log(`   MA240:  ${maPredictions.ma240[0]} / ${maPredictions.ma240[1]}`);
     console.log(`   MA720:  ${maPredictions.ma720[0]} / ${maPredictions.ma720[1]}`);
     console.log(`   MA1440: ${maPredictions.ma1440[0]} / ${maPredictions.ma1440[1]}`);
+
+    return resultAverage;
 }
 
 function calculateMa(
@@ -162,4 +173,4 @@ function calculateMa(
     return [ma, percent];
 }
 
-analyzeCurrency("XMR", 240, 2, ReportFormat.MASell, -3);
+// analyzeCurrency("XMR", 240, 2, ReportFormat.MASell, -3);
