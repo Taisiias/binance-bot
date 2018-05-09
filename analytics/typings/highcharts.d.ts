@@ -5490,6 +5490,8 @@ declare namespace Highcharts {
         dataGrouping?: {
             units: Array<[string, Array<number | [number]>]>;
         }
+        lineWidth?: number;
+        marker?: Marker;
     }
 
     interface SeriesOptions extends IndividualSeriesOptions, SeriesChart { }

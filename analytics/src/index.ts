@@ -8,6 +8,7 @@ function insertChart(
     candlesticksArray: CurrencyCandlestickRecord[],
 ): void {
     const averageData = analyzeCurrency(candlesticksArray, 240, 2, ReportFormat.MASell, -3);
+
     highcharts.stockChart("container", {
         rangeSelector: {
             selected: 1,
@@ -24,37 +25,43 @@ function insertChart(
                 lineWidth: 0,
             },
         },
-        series: [{
-            type: "candlestick",
-            name: "Binance Bot Candlesticks",
-            data: chartData,
-            dataGrouping: {
-                units: [["minute", [1]],
-                      ["hour", [1]],
+        series: [
+            {
+                type: "spline",
+                name: "Binance Bot Average",
+                data: averageData,
+                color: "#FF0000",
+                lineWidth: 2,
+                marker: {
+                    radius: 4,
+                },
+                // dataGrouping: {
+                //     units: [["minute", [1]],
+                //     ["hour", [1]],
+                //         // ["day", [1, 10, 20, 30]],
+                //         // ["month", [1, 2, 3]],
+                //         // ["year", [1]],
+                //     ],
+                // },
+            },
+            {
+                type: "candlestick",
+                name: "Binance Bot Candlesticks",
+                data: chartData,
+                dataGrouping: {
+                    units: [["minute", [1]],
+                    ["hour", [1]],
                     // ["day", [1, 10, 20, 30]],
                     // ["month", [1, 2, 3]],
                     ["year", [1]],
-                ],
+                    ],
+                },
             },
-        },
-        {
-            type: "spline",
-            name: "Binance Bot Average",
-            data: averageData,
-            dataGrouping: {
-                units: [["minute", [1]],
-                      ["hour", [1]],
-                    // ["day", [1, 10, 20, 30]],
-                    // ["month", [1, 2, 3]],
-                    // ["year", [1]],
-                ],
-            },
-        },
         ],
     });
 }
 
-function readData(): [Highcharts.DataPoint[], CurrencyCandlestickRecord[]]  {
+function readData(): [Highcharts.DataPoint[], CurrencyCandlestickRecord[]] {
     const fileContentJson = require("../../candlesticks/candlesticks-XMRBTC.json");
     const candlesticksArray = fileContentJson as CurrencyCandlestickRecord[];
 
@@ -64,7 +71,7 @@ function readData(): [Highcharts.DataPoint[], CurrencyCandlestickRecord[]]  {
     for (const o of candlesticksArray) {
         let oo: Highcharts.DataPoint;
         oo = {
-            x: o.openTime,
+            x: o.closeTime,
             open: Number.parseFloat(o.open),
             high: Number.parseFloat(o.high),
             low: Number.parseFloat(o.low),
@@ -73,6 +80,7 @@ function readData(): [Highcharts.DataPoint[], CurrencyCandlestickRecord[]]  {
             color: "#AAAAAA",
             negativeColor: "#0088FF",
         };
+
         chartData.push(oo);
         i++;
     }

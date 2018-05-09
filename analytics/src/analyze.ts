@@ -17,9 +17,9 @@ export function analyzeCurrency(
     requiredProfitPercents: number,
     format: ReportFormat,
     maPredictionThreshold: number,
-): number[] {
+): Array<[number, number]> {
 
-    const resultAverage: number[] = [];
+    const resultAverage: Array<[number, number]> = [];
 
     // console.log(symbol);
     // const currencyData: CurrencyCandlestickRecord[] =
@@ -37,6 +37,8 @@ export function analyzeCurrency(
         const low = parseFloat(record.low);
         const volume = parseFloat(record.volume);
         parsedData.push([date, open, close, high, low, volume]);
+        const avgTime = record.closeTime;
+        resultAverage.push([avgTime, 0.0]);
     }
 
     if (format === ReportFormat.Basic) {
@@ -62,7 +64,7 @@ export function analyzeCurrency(
         const changePercents = ((close - lastClose) / lastClose) * 100;
 
         const [ma60, ma60Dist] = calculateMa(parsedData, i, 60);
-        resultAverage.push(ma60);
+        resultAverage[i][1] = ma60;
         const ma240Dist = calculateMa(parsedData, i, 240)[1];
         const ma720Dist = calculateMa(parsedData, i, 720)[1];
         const ma1440Dist = calculateMa(parsedData, i, 1440)[1];
