@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "analyze": "yarn build && node ./build/analyze.js"
+    "analyze": "yarn build && node ./build/run-analysis.js"
   },
   "author": "Taisiia Sobchenko <taisiia.sobchenko@gmail.com>",
   "license": "ISC",

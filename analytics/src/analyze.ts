@@ -1,5 +1,4 @@
 import chalk from "chalk";
-// import * as fs from "fs";
 // tslint:disable-next-line:no-submodule-imports
 // import * as highcharts from "highcharts/highstock";
 import moment from "moment";
@@ -21,13 +20,6 @@ export function analyzeCurrency(
 
     const resultAverage: Array<[number, number]> = [];
 
-    // console.log(symbol);
-    // const currencyData: CurrencyCandlestickRecord[] =
-    // JSON.parse(fs.readFileSync(`../candlesticks/candlesticks-${symbol}BTC.json`).toString());
-    // require("../../candlesticks/candlesticks-XMRBTC.json");
-    // const fileContentJson = require(`../../candlesticks/candlesticks-${symbol}BTC.json`);
-    // const currencyData = fileContentJson as CurrencyCandlestickRecord[];
-
     const parsedData: Array<[Date, number, number, number, number, number]> = [];
     for (const record of currencyData) {
         const date = new Date(record.closeTime);
@@ -37,8 +29,7 @@ export function analyzeCurrency(
         const low = parseFloat(record.low);
         const volume = parseFloat(record.volume);
         parsedData.push([date, open, close, high, low, volume]);
-        const avgTime = record.closeTime;
-        resultAverage.push([avgTime, 0.0]);
+        resultAverage.push([record.closeTime, 0.0]);
     }
 
     if (format === ReportFormat.Basic) {
@@ -174,5 +165,3 @@ function calculateMa(
     const percent = 100 * (data[i][2] - ma) / ma;
     return [ma, percent];
 }
-
-// analyzeCurrency("XMR", 240, 2, ReportFormat.MASell, -3);
