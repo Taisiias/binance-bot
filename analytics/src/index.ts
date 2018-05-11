@@ -28,12 +28,66 @@ function insertChart(
         series: [
             {
                 type: "spline",
-                name: "Binance Bot Average",
-                data: averageData,
+                name: "Binance Bot Average 60",
+                data: averageData[0],
                 color: "#FF0000",
-                lineWidth: 2,
+                lineWidth: 1,
                 marker: {
-                    radius: 4,
+                    radius: 2,
+                },
+                // dataGrouping: {
+                //     units: [["minute", [1]],
+                //     ["hour", [1]],
+                //         // ["day", [1, 10, 20, 30]],
+                //         // ["month", [1, 2, 3]],
+                //         // ["year", [1]],
+                //     ],
+                // },
+            },
+            {
+                type: "spline",
+                name: "Binance Bot Average 240",
+                data: averageData[1],
+                color: "#49FF00",
+                lineWidth: 1,
+                marker: {
+                    radius: 2,
+                },
+                // dataGrouping: {
+                //     units: [["minute", [1]],
+                //     ["hour", [1]],
+                //         // ["day", [1, 10, 20, 30]],
+                //         // ["month", [1, 2, 3]],
+                //         // ["year", [1]],
+                //     ],
+                // },
+            },
+            {
+                type: "spline",
+                name: "Binance Bot Average 720",
+                data: averageData[2],
+                color: "#30810F",
+                lineWidth: 1,
+                marker: {
+                    radius: 2,
+                },
+                // dataGrouping: {
+                //     units: [["minute", [1]],
+                //     ["hour", [1]],
+                //         // ["day", [1, 10, 20, 30]],
+                //         // ["month", [1, 2, 3]],
+                //         // ["year", [1]],
+                //     ],
+                // },
+            },
+            {
+                type: "spline",
+                name: "Binance Bot Average 1440",
+                data: averageData[3],
+                color: "#FF5733",
+                lineWidth: 1,
+                marker: {
+                    radius: 2,
                 },
                 // dataGrouping: {
                 //     units: [["minute", [1]],
@@ -49,7 +103,7 @@ function insertChart(
                 name: "Binance Bot Candlesticks",
                 data: chartData,
                 dataGrouping: {
-                    units: [["minute", [1]],
+                    units: [["minute", []],
                     ["hour", [1]],
                     // ["day", [1, 10, 20, 30]],
                     // ["month", [1, 2, 3]],

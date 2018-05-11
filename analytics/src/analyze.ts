@@ -10,17 +10,33 @@ export enum ReportFormat {
     MASell,
 }
 
+type Col = Array<[number, number]>;
+type Averages = [Col, Col, Col, Col];
+// type Averages = Array<[[number, number], [number, number], [number, number], [number, number]]>;
+
 export function analyzeCurrency(
     currencyData: CurrencyCandlestickRecord[],
     forceSellWindowMinutes: number,
     requiredProfitPercents: number,
     format: ReportFormat,
     maPredictionThreshold: number,
-): Array<[number, number]> {
+): Averages {
 
-    const resultAverage: Array<[number, number]> = [];
+    // const col1: Col = [];
+    // const col2: Col = [];
+    // const col3: Col = [];
+    // const col4: Col = [];
+    // const result: Averages = [col1, col2, col3, col4];
+    // return result;
+
+    // const resultAverages: Averages = [];
+    const col1: Col = [];
+    const col2: Col = [];
+    const col3: Col = [];
+    const col4: Col = [];
 
     const parsedData: Array<[Date, number, number, number, number, number]> = [];
+
     for (const record of currencyData) {
         const date = new Date(record.closeTime);
         const open = parseFloat(record.open);
@@ -29,7 +45,11 @@ export function analyzeCurrency(
         const low = parseFloat(record.low);
         const volume = parseFloat(record.volume);
         parsedData.push([date, open, close, high, low, volume]);
-        resultAverage.push([record.closeTime, 0.0]);
+
+        col1.push([record.closeTime, 0.0]);
+        col2.push([record.closeTime, 0.0]);
+        col3.push([record.closeTime, 0.0]);
+        col4.push([record.closeTime, 0.0]);
     }
 
     if (format === ReportFormat.Basic) {
@@ -55,10 +75,14 @@ export function analyzeCurrency(
         const changePercents = ((close - lastClose) / lastClose) * 100;
 
         const [ma60, ma60Dist] = calculateMa(parsedData, i, 60);
-        resultAverage[i][1] = ma60;
-        const ma240Dist = calculateMa(parsedData, i, 240)[1];
-        const ma720Dist = calculateMa(parsedData, i, 720)[1];
-        const ma1440Dist = calculateMa(parsedData, i, 1440)[1];
+        const [ma240, ma240Dist] = calculateMa(parsedData, i, 240);
+        const [ma720, ma720Dist] = calculateMa(parsedData, i, 720);
+        const [ma1440, ma1440Dist] = calculateMa(parsedData, i, 1440);
+
+        col1[i][1] = ma60;
+        col2[i][1] = ma240;
+        col3[i][1] = ma720;
+        col4[i][1] = ma1440;
 
         let sellPrice: number | undefined;
         if (i + forceSellWindowMinutes < parsedData.length) {
@@ -148,7 +172,9 @@ export function analyzeCurrency(
     console.log(`   MA720:  ${maPredictions.ma720[0]} / ${maPredictions.ma720[1]}`);
     console.log(`   MA1440: ${maPredictions.ma1440[0]} / ${maPredictions.ma1440[1]}`);
 
-    return resultAverage;
+    const resultAverages: Averages = [col1, col2, col3, col4];
+    // console.log("Result Averages: ", resultAverages);
+    return resultAverages;
 }
 
 function calculateMa(
