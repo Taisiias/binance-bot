@@ -14,7 +14,7 @@ function insertChart(
             selected: 1,
         },
         chart: {
-            zoomType: "x",
+            zoomType: "xy",
         },
         title: {
             text: "Binance Bot Candlesticks",
