@@ -20,22 +20,20 @@ export function analyzeCurrency(
     requiredProfitPercents: number,
     format: ReportFormat,
     maPredictionThreshold: number,
-): Averages {
-
-    // const col1: Col = [];
-    // const col2: Col = [];
-    // const col3: Col = [];
-    // const col4: Col = [];
-    // const result: Averages = [col1, col2, col3, col4];
-    // return result;
-
-    // const resultAverages: Averages = [];
+): [Averages, Highcharts.DataPoint[]] {
     const col1: Col = [];
     const col2: Col = [];
     const col3: Col = [];
     const col4: Col = [];
 
     const parsedData: Array<[Date, number, number, number, number, number]> = [];
+
+    // let k = 1;
+
+    const candleSticksData: Highcharts.DataPoint[] = [];
+    // for (const o of currencyData) {
+    //     k++;
+    // }
 
     for (const record of currencyData) {
         const date = new Date(record.closeTime);
@@ -50,6 +48,25 @@ export function analyzeCurrency(
         col2.push([record.closeTime, 0.0]);
         col3.push([record.closeTime, 0.0]);
         col4.push([record.closeTime, 0.0]);
+        // const candleStick = {
+        //     x: record.closeTime,
+        //     open,
+        //     high,
+        //     low,
+        //     close,
+        //     color: "red",
+        //     // negativeColor: "#FF0000",
+        //     name: "CandleStick",
+        // };
+
+        const candleStick = {
+            x: record.closeTime,
+            y: close,
+            color: "red",
+            // negativeColor: "#FF0000",
+        };
+
+        candleSticksData.push(candleStick);
     }
 
     if (format === ReportFormat.Basic) {
@@ -83,6 +100,7 @@ export function analyzeCurrency(
         col2[i][1] = ma240;
         col3[i][1] = ma720;
         col4[i][1] = ma1440;
+        candleSticksData[i].name = `Candlestick ${i}`;
 
         let sellPrice: number | undefined;
         if (i + forceSellWindowMinutes < parsedData.length) {
@@ -103,6 +121,7 @@ export function analyzeCurrency(
             if (sellProfitPercents >= requiredProfitPercents) {
                 profitableMinutes++;
                 sellPriceDisplay = chalk.bold(chalk.green(sellPriceDisplay));
+                candleSticksData[i].color = "green";
             }
 
             if (ma60Dist <= maPredictionThreshold) {
@@ -174,7 +193,7 @@ export function analyzeCurrency(
 
     const resultAverages: Averages = [col1, col2, col3, col4];
     // console.log("Result Averages: ", resultAverages);
-    return resultAverages;
+    return [resultAverages, candleSticksData];
 }
 
 function calculateMa(

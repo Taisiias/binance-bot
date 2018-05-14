@@ -5346,6 +5346,7 @@ declare namespace Highcharts {
         areaspline?: AreaSplineChart;
         areasplinerange?: AreaSplineRangeChart;
         bar?: BarChart;
+        candlestick?: any;
         boxplot?: BoxPlotChart;
         bubble?: BubbleChart;
         column?: ColumnChart;
