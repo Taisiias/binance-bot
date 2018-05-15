@@ -20,7 +20,7 @@ export function analyzeCurrency(
     requiredProfitPercents: number,
     format: ReportFormat,
     maPredictionThreshold: number,
-): [Averages, Highcharts.DataPoint[]] {
+): [Averages, Highcharts.DataPoint[]] | [Averages, Array<[number, number]>] {
     const col1: Col = [];
     const col2: Col = [];
     const col3: Col = [];
@@ -31,6 +31,7 @@ export function analyzeCurrency(
     // let k = 1;
 
     const candleSticksData: Highcharts.DataPoint[] = [];
+    const colCandleSticksData: Array<[number, number]> = [];
     // for (const o of currencyData) {
     //     k++;
     // }
@@ -48,25 +49,18 @@ export function analyzeCurrency(
         col2.push([record.closeTime, 0.0]);
         col3.push([record.closeTime, 0.0]);
         col4.push([record.closeTime, 0.0]);
-        // const candleStick = {
-        //     x: record.closeTime,
-        //     open,
-        //     high,
-        //     low,
-        //     close,
-        //     color: "red",
-        //     // negativeColor: "#FF0000",
-        //     name: "CandleStick",
-        // };
-
         const candleStick = {
             x: record.closeTime,
-            y: close,
+            open,
+            high,
+            low,
+            close,
             color: "red",
             // negativeColor: "#FF0000",
         };
 
         candleSticksData.push(candleStick);
+        colCandleSticksData.push([record.closeTime, close]);
     }
 
     if (format === ReportFormat.Basic) {
@@ -100,7 +94,6 @@ export function analyzeCurrency(
         col2[i][1] = ma240;
         col3[i][1] = ma720;
         col4[i][1] = ma1440;
-        candleSticksData[i].name = `Candlestick ${i}`;
 
         let sellPrice: number | undefined;
         if (i + forceSellWindowMinutes < parsedData.length) {
@@ -193,7 +186,9 @@ export function analyzeCurrency(
 
     const resultAverages: Averages = [col1, col2, col3, col4];
     // console.log("Result Averages: ", resultAverages);
-    return [resultAverages, candleSticksData];
+    // return [resultAverages, candleSticksData];
+
+    return [resultAverages, colCandleSticksData];
 }
 
 function calculateMa(

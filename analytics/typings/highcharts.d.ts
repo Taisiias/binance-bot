@@ -5492,7 +5492,9 @@ declare namespace Highcharts {
             units: Array<[string, Array<number | [number]>]>;
         }
         lineWidth?: number;
+        upColor?: Color;
         marker?: Marker;
+        pointIntervalUnit?: string;
     }
 
     interface SeriesOptions extends IndividualSeriesOptions, SeriesChart { }
