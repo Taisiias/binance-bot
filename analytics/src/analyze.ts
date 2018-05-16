@@ -20,7 +20,7 @@ export function analyzeCurrency(
     requiredProfitPercents: number,
     format: ReportFormat,
     maPredictionThreshold: number,
-): [Averages, Highcharts.DataPoint[]] | [Averages, Array<[number, number]>] {
+): [Averages, Highcharts.DataPoint[], Highcharts.DataPoint[]] {
     const col1: Col = [];
     const col2: Col = [];
     const col3: Col = [];
@@ -28,13 +28,8 @@ export function analyzeCurrency(
 
     const parsedData: Array<[Date, number, number, number, number, number]> = [];
 
-    // let k = 1;
-
-    const candleSticksData: Highcharts.DataPoint[] = [];
-    const colCandleSticksData: Array<[number, number]> = [];
-    // for (const o of currencyData) {
-    //     k++;
-    // }
+    const redCandleSticksData: Highcharts.DataPoint[] = [];
+    const greenCandleSticksData: Highcharts.DataPoint[] = [];
 
     for (const record of currencyData) {
         const date = new Date(record.closeTime);
@@ -60,8 +55,7 @@ export function analyzeCurrency(
         // };
 
         // candleSticksData.push(candleStick);
-        candleSticksData.push({x: record.closeTime, y: close, name: "", color: "red"});
-        colCandleSticksData.push([record.closeTime, close]);
+        redCandleSticksData.push({x: record.closeTime, y: close, color: "red"});
     }
 
     if (format === ReportFormat.Basic) {
@@ -82,7 +76,6 @@ export function analyzeCurrency(
     };
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < parsedData.length; i++) {
-        candleSticksData[i].name = `Candlestick ${i}`;
         const [date, open, close, high, low, volume] = parsedData[i];
         const highLowDistPercents = ((high - low) / low) * 100;
         const changePercents = ((close - lastClose) / lastClose) * 100;
@@ -116,7 +109,9 @@ export function analyzeCurrency(
             if (sellProfitPercents >= requiredProfitPercents) {
                 profitableMinutes++;
                 sellPriceDisplay = chalk.bold(chalk.green(sellPriceDisplay));
-                candleSticksData[i].color = "green";
+                redCandleSticksData[i].color = "green";
+                greenCandleSticksData.push(redCandleSticksData[i]);
+                // redCandleSticksData.splice(i, 1);
             }
 
             if (ma60Dist <= maPredictionThreshold) {
@@ -188,7 +183,7 @@ export function analyzeCurrency(
 
     const resultAverages: Averages = [col1, col2, col3, col4];
     // console.log("Result Averages: ", resultAverages);
-    return [resultAverages, candleSticksData];
+    return [resultAverages, redCandleSticksData, greenCandleSticksData];
 
     // return [resultAverages, colCandleSticksData];
 }
