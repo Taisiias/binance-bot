@@ -27,7 +27,7 @@ function insertChart(
             selected: 0,
         },
         chart: {
-            zoomType: "y",
+            // zoomType: "xy",
             panning: true,
             // panKey: "shift",
             resetZoomButton: {
@@ -52,20 +52,25 @@ function insertChart(
             //     upColor: "green",
             //     colorByPoint: true,
             // },
+            line: {
+                // colorByPoint: true,
+                marker: {
+                    enabled: true,
+                    radius: 2,
+                },
+                // dashStyle: "solid",
+                // color: "red",
+            },
         },
         series: [
             {
-                type: "column",
+                type: "line",
                 name: "Binance Bot Candlesticks",
                 // pointIntervalUnit: "hour",
                 data: candleSticksData,
-                // lineWidth: 3,
-                // marker: {
-                //     radius: 4,
-                // },
-
-                color: "brown",
-                upColor: "yellow",
+                color: "purple",
+                lineWidth: 2,
+                // upColor: "yellow",
 
                 // dataGrouping: {
                 //     units: [["minute", [1, 2, 5, 10, 15, 30]],
@@ -140,7 +145,7 @@ function insertChart(
                 type: "spline",
                 name: "Binance Bot Average 720",
                 data: averageData[2],
-                color: "black",
+                color: "yellow",
                 lineWidth: 1,
                 marker: {
                     radius: 2,
@@ -164,7 +169,7 @@ function insertChart(
                 type: "spline",
                 name: "Binance Bot Average 1440",
                 data: averageData[3],
-                color: "purple",
+                color: "brown",
                 lineWidth: 1,
                 marker: {
                     radius: 2,

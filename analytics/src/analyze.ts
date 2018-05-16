@@ -49,17 +49,18 @@ export function analyzeCurrency(
         col2.push([record.closeTime, 0.0]);
         col3.push([record.closeTime, 0.0]);
         col4.push([record.closeTime, 0.0]);
-        const candleStick = {
-            x: record.closeTime,
-            open,
-            high,
-            low,
-            close,
-            color: "red",
-            // negativeColor: "#FF0000",
-        };
+        // const candleStick = {
+        //     x: record.closeTime,
+        //     open,
+        //     high,
+        //     low,
+        //     close,
+        //     color: "red",
+        //     // negativeColor: "#FF0000",
+        // };
 
-        candleSticksData.push(candleStick);
+        // candleSticksData.push(candleStick);
+        candleSticksData.push({x: record.closeTime, y: close, name: "", color: "red"});
         colCandleSticksData.push([record.closeTime, close]);
     }
 
@@ -81,6 +82,7 @@ export function analyzeCurrency(
     };
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < parsedData.length; i++) {
+        candleSticksData[i].name = `Candlestick ${i}`;
         const [date, open, close, high, low, volume] = parsedData[i];
         const highLowDistPercents = ((high - low) / low) * 100;
         const changePercents = ((close - lastClose) / lastClose) * 100;
@@ -186,9 +188,9 @@ export function analyzeCurrency(
 
     const resultAverages: Averages = [col1, col2, col3, col4];
     // console.log("Result Averages: ", resultAverages);
-    // return [resultAverages, candleSticksData];
+    return [resultAverages, candleSticksData];
 
-    return [resultAverages, colCandleSticksData];
+    // return [resultAverages, colCandleSticksData];
 }
 
 function calculateMa(
