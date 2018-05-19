@@ -11,9 +11,12 @@
   "author": "Taisiia Sobchenko <taisiia.sobchenko@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@types/chart.js": "^2.7.18",
     "@types/highcharts": "^5.0.22",
     "@types/node": "^10.1.1",
     "chalk": "^2.4.1",
+    "chart.js": "^2.7.2",
+    "chartjs-plugin-zoom": "^0.6.3",
     "highcharts": "^6.1.0",
     "moment": "^2.22.1",
     "printj": "^1.1.2",
