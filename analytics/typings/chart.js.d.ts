@@ -210,18 +210,18 @@ declare namespace Chart {
         // Plugins can require any options
         plugins?: { [plugin: string]: any };
 
-        zoom?: {
-            enabled?: boolean;
-            mode?: string;
-            limits?: {
-                min?: number;
-                max?: number;
-            }
-        };
-        pan?: {
-            enabled?: boolean;
-            mode?: string;
-        };
+        // zoom?: {
+        //     enabled?: boolean;
+        //     mode?: string;
+        //     limits?: {
+        //         min?: number;
+        //         max?: number;
+        //     }
+        // };
+        // pan?: {
+        //     enabled?: boolean;
+        //     mode?: string;
+        // };
     }
 
     interface ChartFontOptions {
@@ -604,5 +604,7 @@ declare namespace Chart {
 declare module "chart.js" { 
     export = Chart;
 }
+
+declare module "chartjs-plugin-zoom" { }
 // export = Chart;
 // export as namespace Chart;

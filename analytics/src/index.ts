@@ -1,5 +1,8 @@
 import chartjs from "chart.js";
+import "chartjs-plugin-zoom";
+import { analyzeCurrency, ReportFormat } from "./analyze";
 import { CurrencyCandlestickRecord } from "./lib";
+
 function insertChart(
     // candlesticksArray: CurrencyCandlestickRecord[],
 ): void {
@@ -96,16 +99,25 @@ export function readData(symbol: string): CurrencyCandlestickRecord[] {
 }
 
 window.onload = () => {
-    // const candlesticksArray = readData("ADA");
+    const candlesticksArray = readData("ADA");
     // insertChart(candlesticksArray);
+    const [averageData, candleSticksData] =
+        analyzeCurrency(candlesticksArray, 240, 2, ReportFormat.MASell, -3);
+    console.log(averageData[0]);
+    console.log(candleSticksData[0]);
 
     const chart = new chartjs.Chart("myChart", {
-        type: "line",
+        type: "scatter",
         data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            // labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "White", "Beige"],
             datasets: [{
-                label: "# of Votes",
-                data: [12, 19, 3, 5, 2, 3],
+                label: "Binance Bot CandleSticks and Moving Averages",
+                data: candleSticksData.slice(0, 1000), // [12, 19, 3, 5, 2, 3, 10, 7],
+                fill: false,
+                type: "line",
+                borderColor: "red",
+                borderWidth: 1,
+                backgroundColor: "green",
             }],
         },
         options: {
@@ -116,6 +128,7 @@ window.onload = () => {
                     },
                 }],
             },
+
             // Container for pan options
             pan: {
                 // Boolean to enable panning
@@ -130,16 +143,14 @@ window.onload = () => {
             zoom: {
                 // Boolean to enable zooming
                 enabled: true,
+                // drag: true,
 
                 // Zooming directions. Remove the appropriate direction to disable
                 // Eg. 'y' would only allow zooming in the y direction
                 mode: "xy",
-                limits: {
-                    max: 20,
-                    min: -20,
-                },
             },
-        },
+            // tslint:disable-next-line:no-any
+        } as any,
     });
     // chart.update();
     console.log(chart.ctx);

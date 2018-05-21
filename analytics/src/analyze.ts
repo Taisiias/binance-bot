@@ -10,8 +10,15 @@ export enum ReportFormat {
     MASell,
 }
 
-type Col = Array<[number, number]>;
-type Averages = [Col, Col, Col, Col];
+export interface ChartJsPoint {
+    x: number;
+    y: number;
+    color: string;
+}
+
+export type Col = Array<[number, number]>;
+export type Averages = [Col, Col, Col, Col];
+
 // type Averages = Array<[[number, number], [number, number], [number, number], [number, number]]>;
 
 export function analyzeCurrency(
@@ -20,7 +27,7 @@ export function analyzeCurrency(
     requiredProfitPercents: number,
     format: ReportFormat,
     maPredictionThreshold: number,
-): [Averages, Highcharts.DataPoint[], Highcharts.DataPoint[]] {
+): [Averages, ChartJsPoint[]] {
     const col1: Col = [];
     const col2: Col = [];
     const col3: Col = [];
@@ -28,8 +35,8 @@ export function analyzeCurrency(
 
     const parsedData: Array<[Date, number, number, number, number, number]> = [];
 
-    const redCandleSticksData: Highcharts.DataPoint[] = [];
-    const greenCandleSticksData: Highcharts.DataPoint[] = [];
+    const candleSticksData: ChartJsPoint[] = [];
+    // const greenCandleSticksData: ChartJsPoint[] = [];
 
     for (const record of currencyData) {
         const date = new Date(record.closeTime);
@@ -55,7 +62,7 @@ export function analyzeCurrency(
         // };
 
         // candleSticksData.push(candleStick);
-        redCandleSticksData.push({x: record.closeTime, y: close, color: "red"});
+        candleSticksData.push({x: record.closeTime, y: close, color: "red"});
     }
 
     if (format === ReportFormat.Basic) {
@@ -109,8 +116,8 @@ export function analyzeCurrency(
             if (sellProfitPercents >= requiredProfitPercents) {
                 profitableMinutes++;
                 sellPriceDisplay = chalk.bold(chalk.green(sellPriceDisplay));
-                redCandleSticksData[i].color = "green";
-                greenCandleSticksData.push(redCandleSticksData[i]);
+                candleSticksData[i].color = "green";
+                // greenCandleSticksData.push(redCandleSticksData[i]);
                 // redCandleSticksData.splice(i, 1);
             }
 
@@ -183,7 +190,7 @@ export function analyzeCurrency(
 
     const resultAverages: Averages = [col1, col2, col3, col4];
     // console.log("Result Averages: ", resultAverages);
-    return [resultAverages, redCandleSticksData, greenCandleSticksData];
+    return [resultAverages, candleSticksData];
 
     // return [resultAverages, colCandleSticksData];
 }
