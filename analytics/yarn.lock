@@ -6,19 +6,9 @@
   version "2.7.18"
   resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.18.tgz#b28f2e437bfe28919e6d4a93493a15de4cf62e00"
 
-"@types/geojson@*":
-  version "7946.0.2"
-  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.2.tgz#0bd0a01ef04e813c2b7580318da9e37c2eadea9c"
-
 "@types/hammerjs@^2.0.35":
   version "2.0.35"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.35.tgz#7b7c950c7d54593e23bffc8d2b4feba9866a7277"
-
-"@types/highcharts@^5.0.22":
-  version "5.0.22"
-  resolved "https://registry.yarnpkg.com/@types/highcharts/-/highcharts-5.0.22.tgz#60ebd8857c4a81e33360e623551d1e7ec896c759"
-  dependencies:
-    "@types/geojson" "*"
 
 "@types/node@^10.1.1":
   version "10.1.1"
@@ -90,10 +80,6 @@ hammerjs@^2.0.8:
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
-
-highcharts@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-6.1.0.tgz#115a6ee10ad36a53d9913f1030c6d46da16c7cb5"
 
 moment@^2.10.2, moment@^2.22.1:
   version "2.22.1"

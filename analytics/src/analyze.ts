@@ -117,8 +117,6 @@ export function analyzeCurrency(
                 profitableMinutes++;
                 sellPriceDisplay = chalk.bold(chalk.green(sellPriceDisplay));
                 candleSticksData[i].color = "green";
-                // greenCandleSticksData.push(redCandleSticksData[i]);
-                // redCandleSticksData.splice(i, 1);
             }
 
             if (ma60Dist <= maPredictionThreshold) {
@@ -191,8 +189,6 @@ export function analyzeCurrency(
     const resultAverages: Averages = [col1, col2, col3, col4];
     // console.log("Result Averages: ", resultAverages);
     return [resultAverages, candleSticksData];
-
-    // return [resultAverages, colCandleSticksData];
 }
 
 function calculateMa(

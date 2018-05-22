@@ -112,7 +112,7 @@ window.onload = () => {
             // labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange", "White", "Beige"],
             datasets: [{
                 label: "Binance Bot CandleSticks and Moving Averages",
-                data: candleSticksData.slice(0, 1000), // [12, 19, 3, 5, 2, 3, 10, 7],
+                data: candleSticksData, // [12, 19, 3, 5, 2, 3, 10, 7],
                 fill: false,
                 type: "line",
                 borderColor: "red",
