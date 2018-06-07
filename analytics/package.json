@@ -11,7 +11,7 @@
   "author": "Taisiia Sobchenko <taisiia.sobchenko@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@types/chart.js": "^2.7.20",
+    "@types/chart.js": "^2.7.21",
     "@types/d3": "^5.0.0",
     "@types/hammerjs": "^2.0.35",
     "@types/node": "^10.3.1",
