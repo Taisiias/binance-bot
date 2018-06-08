@@ -32,14 +32,14 @@ window.onload = () => {
     const height = 500 - margin.top - margin.bottom;
 
     // parse the date / time
-    // const d3ParseTime = d3.timeParse("%d-%b-%y");
+    const d3ParseTime = d3.timeParse("%d-%b-%y");
 
     // set the ranges
     const x = d3.scaleTime().range([0, width]);
     const y = d3.scaleLinear().range([height, 0]);
 
     // define the line
-    const valueline = d3.line()
+    const valueline = d3.line<d3.DSVRowString>()
         // tslint:disable-next-line:no-any
         .x((d: any) => x(d.date))
         // tslint:disable-next-line:no-any
@@ -55,15 +55,23 @@ window.onload = () => {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // Get the data
-    // tslint:disable-next-line:no-any
-    d3.csv("../data.csv", (data: any) => {
+    d3.csv("../data.csv").then((data) => {
+        console.log(data);
+
+        // tslint:disable-next-line:no-any
+        // d3.csv("../data.csv", (data: any) => {
 
         // format the data
         // tslint:disable-next-line:no-any
         data.forEach((d: any) => {
-            d.date = Date.parse(d.date);
+            d.date = d3ParseTime(d.date);
             d.close = +d.close;
         });
+
+        // for (const d of data) {
+        //     d.date = d3ParseTime(d.date as string);
+        //     d.close = Number.parseFloat(d.close as string);
+        // }
 
         // Scale the range of the data
 
@@ -88,10 +96,6 @@ window.onload = () => {
         // Add the Y Axis
         svg.append("g")
             .call(d3.axisLeft(y));
-
-        return undefined;
-
     });
-
     insertChart();
 };
