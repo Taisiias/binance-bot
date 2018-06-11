@@ -45,6 +45,11 @@ window.onload = () => {
         // tslint:disable-next-line:no-any
         .y((d: any) => y(d.close));
 
+    function zoomed(): void {
+        svg.attr("transform",
+                 "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
     // append the svg obgect to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
@@ -52,14 +57,11 @@ window.onload = () => {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .call(d3.zoom().on("zoom", zoomed));
 
     // Get the data
     d3.csv("../data.csv").then((data) => {
-        console.log(data);
-
-        // tslint:disable-next-line:no-any
-        // d3.csv("../data.csv", (data: any) => {
 
         // format the data
         // tslint:disable-next-line:no-any
