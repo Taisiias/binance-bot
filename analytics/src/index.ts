@@ -70,11 +70,6 @@ window.onload = () => {
             d.close = +d.close;
         });
 
-        // for (const d of data) {
-        //     d.date = d3ParseTime(d.date as string);
-        //     d.close = Number.parseFloat(d.close as string);
-        // }
-
         // Scale the range of the data
 
         // tslint:disable-next-line:no-any
