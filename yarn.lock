@@ -258,7 +258,7 @@ braces@^2.3.0, braces@^2.3.1:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-buffer-from@^1.0.0:
+buffer-from@^1.0.0, buffer-from@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.0.tgz#87fcaa3a298358e0ade6e442cfce840740d1ad04"
 
@@ -2021,11 +2021,12 @@ tough-cookie@~2.3.0, tough-cookie@~2.3.3:
   dependencies:
     punycode "^1.4.1"
 
-ts-node@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-6.1.1.tgz#19607140acb06150441fcdb61be11f73f7b6657e"
+ts-node@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-6.1.2.tgz#3221ca727a84bc66db1de8b647896621e38e8eaf"
   dependencies:
     arrify "^1.0.0"
+    buffer-from "^1.1.0"
     diff "^3.1.0"
     make-error "^1.1.1"
     minimist "^1.2.0"
