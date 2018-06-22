@@ -194,9 +194,9 @@
   version "2.0.35"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.35.tgz#7b7c950c7d54593e23bffc8d2b4feba9866a7277"
 
-"@types/node@^10.3.4":
-  version "10.3.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.4.tgz#c74e8aec19e555df44609b8057311052a2c84d9e"
+"@types/node@^10.3.5":
+  version "10.3.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.5.tgz#8423cdf6e6fb83433e489900d7600d3b61c8260c"
 
 ansi-styles@^3.2.1:
   version "3.2.1"
