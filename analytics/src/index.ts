@@ -46,8 +46,7 @@ window.onload = () => {
         .y((d: any) => y(d.close));
 
     function zoomed(): void {
-        svg.attr("transform",
-                 "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
 
     // append the svg obgect to the body of the page
@@ -61,7 +60,7 @@ window.onload = () => {
         .call(d3.zoom().on("zoom", zoomed));
 
     // Get the data
-    d3.csv("../data.csv").then((data) => {
+    d3.tsv("../data.tsv").then((data) => {
 
         // format the data
         // tslint:disable-next-line:no-any
@@ -81,18 +80,31 @@ window.onload = () => {
 
         // Add the valueline path.
         svg.append("path")
-            .data([data])
-            .attr("class", "line")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-width", 1.5)
             .attr("d", valueline);
 
         // Add the X Axis
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x))
+            .select(".domain")
+            .remove();
 
         // Add the Y Axis
         svg.append("g")
-            .call(d3.axisLeft(y));
+            .call(d3.axisLeft(y))
+            .append("text")
+            .attr("fill", "#000")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "0.71em")
+            .attr("text-anchor", "end")
+            .text("Price ($)");
     });
     insertChart();
 };
