@@ -194,9 +194,9 @@
   version "2.0.35"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.35.tgz#7b7c950c7d54593e23bffc8d2b4feba9866a7277"
 
-"@types/node@^10.7.0":
-  version "10.7.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.7.0.tgz#d384b2c8625414ab2aa18fdf989c288d6a7a8202"
+"@types/node@^10.7.1":
+  version "10.7.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.7.1.tgz#b704d7c259aa40ee052eec678758a68d07132a2e"
 
 ansi-styles@^3.2.1:
   version "3.2.1"
@@ -232,9 +232,9 @@ chartjs-color@^2.1.0:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
 
-chartjs-plugin-zoom@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/chartjs-plugin-zoom/-/chartjs-plugin-zoom-0.6.3.tgz#6101a049f00e9404102376ba8db27edcdcf8ccda"
+chartjs-plugin-zoom@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-zoom/-/chartjs-plugin-zoom-0.6.4.tgz#42799733c5eb5ab090fd28776db0f14eb6c28aea"
   dependencies:
     chart.js "^2.6.0"
     hammerjs "^2.0.8"
