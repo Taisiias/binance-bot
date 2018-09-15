@@ -190,9 +190,9 @@
   version "7946.0.3"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.3.tgz#e5791534ab0acfb2b3a39b713966cfcee85d469f"
 
-"@types/hammerjs@^2.0.35":
-  version "2.0.35"
-  resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.35.tgz#7b7c950c7d54593e23bffc8d2b4feba9866a7277"
+"@types/hammerjs@^2.0.36":
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.36.tgz#17ce0a235e9ffbcdcdf5095646b374c2bf615a4c"
 
 "@types/node@^10.9.4":
   version "10.9.4"
