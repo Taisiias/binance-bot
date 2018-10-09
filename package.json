@@ -9,7 +9,7 @@
     "collect": "yarn build && node ./build/collect-history.js"
   },
   "dependencies": {
-    "@types/deepmerge": "^2.1.0",
+    "@types/deepmerge": "^2.2.0",
     "@types/node": "^8.9.1",
     "@types/random-seed": "^0.3.3",
     "@types/yargs": "^12.0.1",
