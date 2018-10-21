@@ -1586,9 +1586,9 @@ prepend-http@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
 
-printj@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/printj/-/printj-1.2.0.tgz#852fca7283cdb82f3fd08d007bde701a224cc397"
+printj@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/printj/-/printj-1.2.1.tgz#67bdc1be9958c0690d5c35e2ba8ff70ceaac26bf"
 
 process-nextick-args@~2.0.0:
   version "2.0.0"
