@@ -1,7 +1,7 @@
 // import chartjs from "chart.js";
 import "chartjs-plugin-zoom";
 import * as d3 from "d3";
-import { analyzeCurrency, ReportFormat } from "./analyze";
+// import { analyzeCurrency, ReportFormat } from "./analyze";
 import { CurrencyCandlestickRecord } from "./lib";
 
 function insertChart(
@@ -20,12 +20,12 @@ export function readData(symbol: string): CurrencyCandlestickRecord[] {
 }
 
 window.onload = () => {
-    const candlesticksArray = readData("ADA");
+    // const candlesticksArray = readData("ADA");
     // insertChart(candlesticksArray);
-    const [averageData, candleSticksData] =
-        analyzeCurrency(candlesticksArray, 240, 2, ReportFormat.MASell, -3);
-    console.log(averageData[0]);
-    console.log(candleSticksData[0]);
+    // const [averageData, candleSticksData] =
+    //     analyzeCurrency(candlesticksArray, 240, 2, ReportFormat.MASell, -3);
+    // console.log(averageData[0]);
+    // console.log(candleSticksData[0]);
 
     const margin = { top: 20, right: 20, bottom: 30, left: 50 };
     const width = 960 - margin.left - margin.right;
