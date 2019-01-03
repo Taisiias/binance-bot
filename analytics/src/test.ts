@@ -11,7 +11,8 @@ const svg = d3.select("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
-const barChart = svg.selectAll("rect")
+// const barChart =
+svg.selectAll("rect")
     .data(dataset)
     .enter()
     .append("rect")
@@ -22,21 +23,22 @@ const barChart = svg.selectAll("rect")
         return d;
     })
     .attr("width", barWidth - barPadding)
-    .attr("transform",  (d, i) => {
+    .attr("transform",  (i) => {
         const translate = [barWidth * i, 0];
         return "translate(" + translate + ")";
     });
-const text = svg.selectAll("text")
+// const text =
+svg.selectAll("text")
     .data(dataset)
     .enter()
     .append("text")
     .text((d) => {
         return d;
     })
-    .attr("y", (d, i) => {
+    .attr("y", (d) => {
         return svgHeight - d - 2;
     })
-    .attr("x", (d, i) => {
-        return barWidth * i;
+    .attr("x", (d) => {
+        return barWidth * d;
     })
     .attr("fill", "#A64C38");
