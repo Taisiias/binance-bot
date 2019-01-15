@@ -150,9 +150,9 @@
     "@types/d3-interpolate" "*"
     "@types/d3-selection" "*"
 
-"@types/d3@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@types/d3/-/d3-5.5.0.tgz#dfdb67190f40a78773d5c8ef9aaba56d02aa8e76"
+"@types/d3@^5.7.0":
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@types/d3/-/d3-5.7.0.tgz#b29ced2f4fca01d531441fdfcc1e9f9ae14ba2f5"
   dependencies:
     "@types/d3-array" "*"
     "@types/d3-axis" "*"
