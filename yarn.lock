@@ -16,9 +16,9 @@
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@types/random-seed/-/random-seed-0.3.3.tgz#7741f7b0a4513198a9396ce4ad25832f799a6727"
 
-"@types/yargs@^12.0.6":
-  version "12.0.6"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.6.tgz#579f95b303d135f0c16928acfbb3550c8a78d4c2"
+"@types/yargs@^12.0.7":
+  version "12.0.7"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.7.tgz#a9dc9b6db5f585396d05c1f07f08020a3a768db1"
 
 abbrev@1:
   version "1.1.1"
