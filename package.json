@@ -19,7 +19,7 @@
     "moment": "^2.24.0",
     "printj": "^1.2.1",
     "random-seed": "^0.3.0",
-    "typescript": "^3.4.5",
+    "typescript": "^3.5.1",
     "yargs": "^13.2.4"
   },
   "devDependencies": {
