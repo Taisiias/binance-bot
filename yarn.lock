@@ -1506,9 +1506,10 @@ prepend-http@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
 
-printj@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/printj/-/printj-1.2.1.tgz#67bdc1be9958c0690d5c35e2ba8ff70ceaac26bf"
+printj@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/printj/-/printj-1.2.2.tgz#620eb0f07509394545fe82f97fe73baa8ad86992"
+  integrity sha512-dx9nIry0Z12s5oebhenDCFQjj/IMVotLMbvFP6OJ+C3v+EV30mtYoj6QtaulFo+DbWCbpEeaqcLYMh6CRuVjsA==
 
 process-nextick-args@~2.0.0:
   version "2.0.0"

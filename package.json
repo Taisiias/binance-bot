@@ -17,7 +17,7 @@
     "chalk": "^2.4.2",
     "deepmerge": "^4.0.0",
     "moment": "^2.24.0",
-    "printj": "^1.2.1",
+    "printj": "^1.2.2",
     "random-seed": "^0.3.0",
     "typescript": "^3.5.3",
     "yargs": "^13.3.0"

@@ -478,9 +478,10 @@ moment@^2.24.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
 
-printj@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/printj/-/printj-1.2.1.tgz#67bdc1be9958c0690d5c35e2ba8ff70ceaac26bf"
+printj@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/printj/-/printj-1.2.2.tgz#620eb0f07509394545fe82f97fe73baa8ad86992"
+  integrity sha512-dx9nIry0Z12s5oebhenDCFQjj/IMVotLMbvFP6OJ+C3v+EV30mtYoj6QtaulFo+DbWCbpEeaqcLYMh6CRuVjsA==
 
 rw@1:
   version "1.3.3"
