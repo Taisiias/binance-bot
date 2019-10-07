@@ -20,7 +20,7 @@
     "printj": "^1.2.2",
     "random-seed": "^0.3.0",
     "typescript": "^3.6.3",
-    "yargs": "^14.0.0"
+    "yargs": "^14.2.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.3",
