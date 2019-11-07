@@ -218,10 +218,10 @@ chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chartjs-plugin-zoom@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/chartjs-plugin-zoom/-/chartjs-plugin-zoom-0.7.4.tgz#8d85e13fbbc8113f1f38dd5d339142576a376feb"
-  integrity sha512-G60Xe9HmIEbYAH1Q3D5MrodLZZbd9nyc+a3vZVTHKFNNHozfh9UJZBH2RGVPDNk6xI+E4SffrgN5XE1MfyqimQ==
+chartjs-plugin-zoom@^0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-zoom/-/chartjs-plugin-zoom-0.7.5.tgz#83ffd143b1807604d8ecabae1091b9c5abf91b84"
+  integrity sha512-OGVQXlw5meOD7ac+CBNO7yKg4Tk06eBb5LUIgpK/qgv7SjVB/89pWMQY3pxWnzCMI8FsoV3iTKQ2ZCOvh4+q6w==
   dependencies:
     hammerjs "^2.0.8"
 
