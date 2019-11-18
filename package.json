@@ -20,11 +20,11 @@
     "printj": "^1.2.2",
     "random-seed": "^0.3.0",
     "typescript": "^3.7.2",
-    "yargs": "^14.2.0"
+    "yargs": "^15.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.4",
-    "ts-node": "^8.5.0",
+    "ts-node": "^8.5.2",
     "tslint": "^5.20.1"
   }
 }
